@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Question_1</title>
+</head>
+
+<body>
+    <h1>API extracted from:<em> https://dummyjson.com/products</em></h1>
+    <div id="products-list"></div>
+</body>
+<script>
+    const productsListItem = document.getElementById('products-list');
+
+        // fetch data and display in HTML
+        fetch('https://dummyjsson.com/products')
+        
+    
+        // parse response to JSON
+        .then(response => {
+            
+            console.log("Error",response.status)
+            if (!response.ok) {
+                
+                throw new Error('Server returned ' + response.status);
+            }
+            return response.json();
+        })
+
+        // Data is in Object Form
+        
+        .then((data) => {
+            
+            // extracting Product array from data object
+            const productList = data.products;
+            
+            for (let i = 0; i < 20; i++) {
+                // Individual Product from Product array
+                
+                const product = productList[i];
+
+                // Using Template Literal (`${expression}`)
+                
+                const productInfo = `
+                <p><strong>Name:</strong> ${product.brand}</p>
+                <p><strong>Price:</strong> ${product.price}</p>
+                <p><strong>Category:</strong> ${product.category}</p>
+                <hr>`;
+                
+                // Addition assignment->Note Appending new product to the earlier ones
+                productsListItem.innerHTML += productInfo;
+            }
+        })
+        //Displays error if url is mistaken or network error
+        .catch(error => {
+            console.error('There was a problem with the Fetch operation:',error);
+        });
+</script>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Question_3</title>
+</head>
+
+<body>
+  <div id="weather"></div>
+  <script>
+    const weather = document.getElementById('weather');
+    //Fetch data from URL and parse the data into JSON
+    fetch(
+      'https://api.openweathermap.org/data/2.5/weather?lat=27.67&lon=85.42&appid=7ec89e6017327f2b1673d993506a9dc7'
+    )
+      //throws error if url or server error occurs
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network error');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        //console log the data
+        console.log('The data is: ', data);
+        weather.innerHTML = `
+              <h2>Location: ${data.name},${data.sys.country}</h2>
+              <h2>Coordinate:</h2><p>Longitude ${data.coord.lon} Latitude ${data.coord.lat}</p>
+              <h2>Weather:</h2>
+                <ol>
+                  <li>ID: ${data.weather[0].id}</li>
+                  <li>Main: ${data.weather[0].main}</li>
+                  <li>Description: ${data.weather[0].description}</li>
+                </ol>
+              <h2>Temperature</h2>
+                <ol>
+                  <li>Temp: ${data.main.temp}</li>
+                  <li>Feels Like: ${data.main.feels_like}</li>
+                  <li>Temp Min: ${data.main.temp_min}</li>
+                  <li>Temp Max: ${data.main.temp_max}</li>
+                  <li>Humidity: ${data.main.humidity}</li>
+                </ol>
+              `;
+      })
+      //Displays error if url is mistaken or network error
+      .catch((error) => {
+        console.error('Problem with the FETCH operation:', error);
+      });
+  </script>
+</body>
+
+</html>

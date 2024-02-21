@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question_2</title>
+</head>
+
+<body>
+    <h1>API extracted from:<em> https://jsonplaceholder.typicode.com/posts</em></h1>
+    <p>2. Using the above API, create to fetch data from a sample API and render any two values in Container with P tag
+        and h2 tag </p>
+    <div id="total"></div>
+    <div id="postLists"></div>
+    <script>
+        const post = document.getElementById('postLists');
+        const total = document.getElementById('total');
+        fetch('https://jsonplaceholder.typicode.com/posts')
+        //throws error if url or server error occurs
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network error');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Length of array: ", data.length);
+                total.innerHTML = `<h3>Total Number of Posts: ${data.length}</h3>`;
+                //For loop to iterate within array
+                for (let i = 0; i < 2; i++) {
+                    const postItem = data[i];
+                    const postEle = `
+                        <h2>Id: ${postItem.id}</h2
+                        <h2>Title: ${postItem.title}</h2>
+                        <p>Body: ${postItem.body}</p>
+                        <hr>`
+                    post.innerHTML += postEle;//Addition Assignment
+                }
+            })
+            //Displays error if url is mistaken or network error
+            .catch(error => {
+                console.error('There was a problem with the Fetch operation:', error);
+            });
+    </script>
+</body>
+
+</html>
